@@ -32,3 +32,16 @@ The database changes are already applied to the live Supabase project.
 - Trial-ending and win-back emails
 - Support inbox linked to coach notes
 - Feature flags per coach
+
+
+## Access and sign-in (v2, modelled on the TGS portal)
+
+- **Roles → areas.** Owner and Administrator see everything; Support sees coaches and internal notes; Finance sees coaches, plans and billing. The sidebar greys out what a role can't open, pages refuse at the server (`requireArea`), and RLS enforces the same areas in the database (`has_area()`).
+- **People** (Settings → People): invite by email and role, change roles, set people inactive. Nobody can change their own role or status; only an owner can change an owner.
+- **Joining:** invited people create their login at `/join`. Anyone invited who already has a login (e.g. also a coach) just signs in and the role links automatically. Invited addresses don't get a coaching business created.
+- **Sign-in:** vague error on a wrong password, slows after four failures in 15 minutes, blocks for 15 minutes after eight. Inactive staff are refused. Forgotten password and reset (`/forgot`, `/reset`) with a 12-character minimum and a breached-password check.
+- **Sessions:** two hours idle signs you out (five-minute warning), twelve hours signs you out regardless. Activity in one tab counts in all.
+- **Access log** (Settings → Access log): every sign-in, sign-out, time-out and failure. My account shows your own.
+- **Coach record** is tabbed: Overview, Team, Plan and billing, Notes.
+
+Supabase → Authentication → URL Configuration: add the portal's address with `/reset` and `/auth/callback` to the redirect URLs, or reset and join links fall back to the Site URL.

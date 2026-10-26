@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Empty, PageHeader, Pill, Stat } from "@/components/ui";
+import { Banner, Empty, PageHeader, Pill, Stat } from "@/components/ui";
 import { fmtDate, fmtRelativeDays, money } from "@/lib/format";
 import { getStaff, PORTAL_TZ, type CoachRow } from "@/lib/staff";
 
@@ -23,8 +23,9 @@ function daysAgo(n: number) {
   return new Date(Date.now() - n * 86_400_000).toISOString();
 }
 
-export default async function OverviewPage() {
-  const { supabase } = await getStaff();
+export default async function OverviewPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+  const { error } = await searchParams;
+  const { supabase, can } = await getStaff();
   const [{ data: ov }, { data: coaches }] = await Promise.all([supabase.rpc("admin_overview"), supabase.rpc("admin_coaches")]);
   const o = (ov ?? {}) as Overview;
   const rows = ((coaches ?? []) as CoachRow[]).filter((c) => !c.is_internal);
@@ -44,10 +45,15 @@ export default async function OverviewPage() {
   return (
     <>
       <PageHeader title="Overview" sub="How the software business is going. Test accounts on the staff list are left out." />
+      <Banner error={error} />
 
       <div className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Stat label="Coaches" value={String(o.coaches_total ?? 0)} hint={`${o.signups_30d ?? 0} joined in the last 30 days`} href="/coaches" />
-        <Stat label="Monthly recurring revenue" value={money(o.mrr_cents ?? 0)} hint={`${o.paying ?? 0} paying`} />
+        {can("accounts") ? (
+          <Stat label="Monthly recurring revenue" value={money(o.mrr_cents ?? 0)} hint={`${o.paying ?? 0} paying`} />
+        ) : (
+          <Stat label="Paying" value={String(o.paying ?? 0)} hint="Coaches on a paid plan" />
+        )}
         <Stat label="On trial" value={String(o.on_trial ?? 0)} hint={`${o.trials_ending_7d ?? 0} ending this week`} href="/coaches?status=trial" />
         <Stat label="Active this week" value={String(o.active_7d ?? 0)} hint="Signed in within 7 days" />
       </div>

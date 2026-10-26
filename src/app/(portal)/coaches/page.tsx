@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { Empty, PageHeader, Pill } from "@/components/ui";
 import { fmtDate, fmtRelativeDays, money } from "@/lib/format";
-import { getStaff, PORTAL_TZ, type CoachRow } from "@/lib/staff";
+import { requireArea, PORTAL_TZ, type CoachRow } from "@/lib/staff";
 
 const FILTERS = ["all", "trial", "active", "past_due", "paused", "cancelled"];
 
 export default async function CoachesPage({ searchParams }: { searchParams: Promise<{ status?: string; q?: string }> }) {
   const { status = "all", q = "" } = await searchParams;
-  const { supabase } = await getStaff();
+  const { supabase, can } = await requireArea("coaches");
   const { data } = await supabase.rpc("admin_coaches");
   const needle = q.toLowerCase();
   const rows = ((data ?? []) as CoachRow[])
@@ -63,7 +63,7 @@ export default async function CoachesPage({ searchParams }: { searchParams: Prom
                   <td className="px-5 py-3 text-right">{c.sessions_30d}</td>
                   <td className="px-5 py-3 capitalize">
                     {c.plan}
-                    {c.monthly_price_cents ? <span className="text-muted"> · {money(c.monthly_price_cents)}</span> : null}
+                    {can("accounts") && c.monthly_price_cents ? <span className="text-muted"> · {money(c.monthly_price_cents)}</span> : null}
                   </td>
                   <td className="px-5 py-3">
                     {c.is_internal ? <Pill status="internal" label="staff test" /> : <Pill status={c.status ?? "trial"} />}
