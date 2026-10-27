@@ -13,6 +13,13 @@ export default async function PortalLayout({ children }: { children: React.React
   const groups = [
     { title: "Overview", items: [{ href: "/", label: "Home", area: "overview" as const }] },
     { title: "Records", items: [{ href: "/coaches", label: "Coaches", area: "coaches" as const, count: coachCount ?? 0 }] },
+    {
+      title: "Platform",
+      items: [
+        { href: "/platform/emails", label: "Emails", area: "coaches" as const },
+        { href: "/platform/ai", label: "AI usage", area: "coaches" as const },
+      ],
+    },
     { title: "Business", items: [{ href: "/legal", label: "Legal", area: "legal" as const }] },
     {
       title: "Settings",

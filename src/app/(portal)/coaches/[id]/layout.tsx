@@ -32,6 +32,7 @@ export default async function CoachLayout({ children, params }: { children: Reac
         tabs={[
           { slug: "", label: "Overview" },
           { slug: "team", label: "Team" },
+          { slug: "emails", label: "Emails & AI" },
           { slug: "account", label: "Plan and billing", off: !can("accounts") },
           { slug: "notes", label: "Notes", off: !can("notes") },
           { slug: "support", label: "Support access", off: !can("coach_access") },
