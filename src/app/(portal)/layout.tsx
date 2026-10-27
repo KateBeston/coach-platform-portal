@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BackLink } from "@/components/back-link";
 import { SessionTimeout } from "@/components/session-timeout";
+import { SaveIndicator, SaveStateProvider } from "@/components/save-state";
 import { Sidebar } from "@/components/sidebar";
 import { getStaff, ROLE_LABEL } from "@/lib/staff";
 import { signOut } from "../login/actions";
@@ -12,6 +13,7 @@ export default async function PortalLayout({ children }: { children: React.React
   const groups = [
     { title: "Overview", items: [{ href: "/", label: "Home", area: "overview" as const }] },
     { title: "Records", items: [{ href: "/coaches", label: "Coaches", area: "coaches" as const, count: coachCount ?? 0 }] },
+    { title: "Business", items: [{ href: "/legal", label: "Legal", area: "legal" as const }] },
     {
       title: "Settings",
       items: [
@@ -23,6 +25,7 @@ export default async function PortalLayout({ children }: { children: React.React
   ];
 
   return (
+    <SaveStateProvider>
     <div className="min-h-screen md:flex">
       <SessionTimeout />
       <aside className="flex flex-col wash border-r border-line md:sticky md:top-0 md:h-screen md:w-60 md:shrink-0">
@@ -44,9 +47,11 @@ export default async function PortalLayout({ children }: { children: React.React
         <div className="flex items-center gap-4 border-b border-line bg-surface/80 backdrop-blur px-4 py-2.5 text-sm md:px-8">
           <BackLink />
           <Link href="/" className="text-muted hover:text-ink">Home</Link>
+          <div className="ml-auto"><SaveIndicator /></div>
         </div>
         <main className="mx-auto w-full max-w-6xl px-4 py-6 md:px-8 md:py-8">{children}</main>
       </div>
     </div>
+    </SaveStateProvider>
   );
 }

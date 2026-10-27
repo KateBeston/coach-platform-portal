@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 /** Pages reachable without a session. Everything else needs one. */
-const PUBLIC = ["/login", "/forgot", "/reset", "/join", "/auth"];
+const PUBLIC = ["/login", "/forgot", "/reset", "/join", "/auth", "/api/legal/"];
 
 /** Refreshes the session on every request and sends anyone signed out to /login. */
 export async function updateSession(request: NextRequest) {

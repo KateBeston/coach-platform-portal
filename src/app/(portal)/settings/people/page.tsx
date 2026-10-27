@@ -5,8 +5,8 @@ import { cancelInviteAction, inviteStaffAction, updateStaffAction } from "../../
 
 const ROLES = Object.keys(ROLE_LABEL) as StaffRole[];
 const ROLE_AREAS: Record<StaffRole, Area[]> = {
-  owner: ["overview", "coaches", "accounts", "notes", "people", "access", "coach_access"],
-  admin: ["overview", "coaches", "accounts", "notes", "people", "access", "coach_access"],
+  owner: ["overview", "coaches", "accounts", "notes", "people", "access", "coach_access", "legal"],
+  admin: ["overview", "coaches", "accounts", "notes", "people", "access", "coach_access", "legal"],
   support: ["overview", "coaches", "notes", "coach_access"],
   finance: ["overview", "coaches", "accounts"],
 };
