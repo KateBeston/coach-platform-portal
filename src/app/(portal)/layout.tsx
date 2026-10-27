@@ -25,23 +25,23 @@ export default async function PortalLayout({ children }: { children: React.React
   return (
     <div className="min-h-screen md:flex">
       <SessionTimeout />
-      <aside className="flex flex-col bg-ink text-white md:sticky md:top-0 md:h-screen md:w-60 md:shrink-0">
+      <aside className="flex flex-col wash border-r border-line md:sticky md:top-0 md:h-screen md:w-60 md:shrink-0">
         <div className="px-5 py-5">
-          <p className="font-serif text-lg">Coach Platform</p>
-          <p className="text-[11px] tracking-[0.2em] text-white/50 uppercase">Internal</p>
+          <p className="font-serif text-2xl font-normal">Coach Platform</p>
+          <p className="text-xs tracking-[0.18em] text-clay uppercase">Internal portal</p>
         </div>
         <Sidebar groups={groups} areas={areas} />
-        <div className="border-t border-white/10 px-5 py-4">
-          <p className="text-[11px] tracking-[0.16em] text-white/40 uppercase">Logged in as</p>
-          <p className="truncate text-sm">{me.name || user.email}</p>
-          <p className="text-xs text-white/50">{ROLE_LABEL[me.role]}</p>
+        <div className="border-t border-line px-5 py-4">
+          <p className="text-xs text-muted">Logged in as</p>
+          <p className="truncate text-sm font-medium">{me.name || user.email}</p>
+          <p className="text-xs text-muted">{ROLE_LABEL[me.role]}</p>
           <form action={signOut}>
-            <button className="mt-2 text-xs text-white/70 hover:text-white">Sign out</button>
+            <button className="mt-2 text-sm text-accent hover:underline">Sign out</button>
           </form>
         </div>
       </aside>
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-4 border-b border-line bg-surface px-4 py-2.5 text-sm md:px-8">
+        <div className="flex items-center gap-4 border-b border-line bg-surface/80 backdrop-blur px-4 py-2.5 text-sm md:px-8">
           <BackLink />
           <Link href="/" className="text-muted hover:text-ink">Home</Link>
         </div>

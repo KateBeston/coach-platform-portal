@@ -18,7 +18,7 @@ export default async function CoachTeam({ params }: { params: Promise<{ id: stri
       {team.length ? (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="text-left text-xs text-muted uppercase">
+            <thead className="text-left text-sm text-muted">
               <tr><th className="pb-2 font-medium">Name</th><th className="pb-2 font-medium">Role</th><th className="pb-2 font-medium">Engaged as</th><th className="pb-2 font-medium">Login</th><th className="pb-2 font-medium">Added</th></tr>
             </thead>
             <tbody className="divide-y divide-line">

@@ -19,7 +19,7 @@ export function AccessTable({ rows, showEmail = true }: { rows: AccessRow[]; sho
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
-        <thead className="text-left text-xs text-muted uppercase">
+        <thead className="text-left text-sm text-muted">
           <tr>
             <th className="pb-2 font-medium">When</th>
             {showEmail && <th className="pb-2 font-medium">Who</th>}

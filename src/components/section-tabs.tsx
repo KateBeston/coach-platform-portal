@@ -11,7 +11,7 @@ export function SectionTabs({ base, tabs }: { base: string; tabs: { slug: string
       {tabs.map((t) => {
         const href = t.slug ? `${base}/${t.slug}` : base;
         const active = path === href;
-        const cls = "-mb-px border-b-2 px-4 py-2.5 text-xs tracking-[0.06em] whitespace-nowrap uppercase";
+        const cls = "-mb-px border-b-2 px-4 py-2.5 text-sm whitespace-nowrap";
         return t.off ? (
           <span key={t.slug} className={`${cls} cursor-not-allowed border-transparent text-muted/50`} title="Your role doesn't include this">
             {t.label}

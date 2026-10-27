@@ -37,7 +37,7 @@ export default async function CoachesPage({ searchParams }: { searchParams: Prom
       <div className="card overflow-x-auto p-0">
         {rows.length ? (
           <table className="w-full min-w-[760px] text-sm">
-            <thead className="text-left text-xs tracking-wide text-muted uppercase">
+            <thead className="text-left text-sm text-muted">
               <tr className="border-b border-line">
                 <th className="px-5 py-3 font-medium">Coach</th>
                 <th className="px-5 py-3 font-medium">Joined</th>

@@ -70,9 +70,9 @@ export function SessionTimeout() {
   const mins = Math.floor(remaining / 60000);
   const secs = Math.floor((remaining % 60000) / 1000);
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-ink/50 px-4">
+    <div className="fixed inset-0 z-50 grid place-items-center bg-ink/30 backdrop-blur-[2px] px-4">
       <div className="card w-full max-w-sm border-t-4 border-t-accent">
-        <p className="text-xs font-medium tracking-[0.16em] text-muted uppercase">Still there?</p>
+        <p className="text-sm font-medium text-accent">Still there?</p>
         <h2 className="mt-2 mb-3 text-2xl">Signing out in {mins}:{String(secs).padStart(2, "0")}</h2>
         <p className="mb-5 text-sm text-muted">Nothing has happened here for a while. Anything you&apos;ve saved will still be there when you sign back in.</p>
         <div className="flex gap-2">

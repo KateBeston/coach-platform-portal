@@ -21,19 +21,19 @@ export function Sidebar({ groups, areas }: { groups: Group[]; areas: Area[] }) {
           {g.items.map((i) => {
             const allowed = !i.area || areas.includes(i.area);
             const active = i.href === "/" ? path === "/" : path.startsWith(i.href);
-            const cls = "flex items-center justify-between rounded-lg px-3 py-1.5 text-sm";
+            const cls = "flex items-center justify-between rounded-xl px-3 py-1.5 text-sm";
             const inner = (
               <>
                 <span>{i.label}</span>
-                {i.count !== undefined && <span className="text-xs text-white/45">{i.count}</span>}
+                {i.count !== undefined && <span className="text-xs text-muted">{i.count}</span>}
               </>
             );
             return allowed ? (
-              <Link key={i.href} href={i.href} className={`${cls} ${active ? "bg-white/15 font-medium" : "text-white/75 hover:bg-white/10"}`}>
+              <Link key={i.href} href={i.href} className={`${cls} ${active ? "bg-surface/90 font-semibold text-accent shadow-[0_1px_3px_rgba(31,58,61,0.06)]" : "text-ink/80 hover:bg-surface/60 hover:text-accent"}`}>
                 {inner}
               </Link>
             ) : (
-              <span key={i.href} className={`${cls} cursor-not-allowed text-white/30`} title="Your role doesn't include this" aria-disabled="true">
+              <span key={i.href} className={`${cls} cursor-not-allowed text-muted/45`} title="Your role doesn't include this" aria-disabled="true">
                 {inner}
               </span>
             );
@@ -52,7 +52,7 @@ function NavGroup({ title, startOpen, children }: { title: string; startOpen: bo
         type="button"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
-        className="flex w-full items-center justify-between px-3 pb-1 text-[11px] font-medium tracking-[0.16em] text-white/45 uppercase hover:text-white/70"
+        className="flex w-full items-center justify-between px-3 pb-1 text-[11px] font-semibold tracking-[0.14em] text-muted uppercase hover:text-accent"
       >
         <span>{title}</span>
         <span aria-hidden="true">{open ? "−" : "+"}</span>
