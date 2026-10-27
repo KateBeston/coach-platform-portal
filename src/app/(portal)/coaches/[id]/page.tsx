@@ -36,6 +36,8 @@ export default async function CoachOverview({ params }: { params: Promise<{ id: 
             ["Goals", u.goals ?? 0],
             ["Booked by clients", u.booked_by_clients ?? 0],
             ["Calendar entries", u.calendar_events ?? 0],
+            ["Emails sent", u.emails_sent ?? 0],
+            ["Communications logged", u.comms_logged ?? 0],
           ].map(([label, value]) => (
             <div key={String(label)}>
               <dt className="text-xs text-muted">{label}</dt>
