@@ -34,6 +34,7 @@ export default async function CoachLayout({ children, params }: { children: Reac
           { slug: "team", label: "Team" },
           { slug: "account", label: "Plan and billing", off: !can("accounts") },
           { slug: "notes", label: "Notes", off: !can("notes") },
+          { slug: "support", label: "Support access", off: !can("coach_access") },
         ]}
       />
       {children}

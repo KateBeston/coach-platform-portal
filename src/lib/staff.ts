@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { cache } from "react";
 import { createClient } from "./supabase/server";
 
-export type Area = "overview" | "coaches" | "accounts" | "notes" | "people" | "access";
+export type Area = "overview" | "coaches" | "accounts" | "notes" | "people" | "access" | "coach_access";
 export type StaffRole = "owner" | "admin" | "support" | "finance";
 
 export const ROLE_LABEL: Record<StaffRole, string> = {
@@ -13,9 +13,9 @@ export const ROLE_LABEL: Record<StaffRole, string> = {
 };
 
 export const ROLE_HELP: Record<StaffRole, string> = {
-  owner: "Everything, including other owners.",
-  admin: "Everything except changing owners.",
-  support: "Coaches and internal notes. Can't change plans or billing.",
+  owner: "Everything, including other owners and opening coach accounts.",
+  admin: "Everything except changing owners, including opening coach accounts.",
+  support: "Coaches, internal notes and opening coach accounts. Can't change plans or billing.",
   finance: "Coaches, plans and billing. Can't read internal notes.",
 };
 
@@ -26,6 +26,7 @@ export const AREA_LABEL: Record<Area, string> = {
   notes: "Internal notes",
   people: "People",
   access: "Access log",
+  coach_access: "Open coach accounts",
 };
 
 /**

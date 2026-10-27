@@ -88,3 +88,23 @@ export async function updateMyNameAction(fd: FormData) {
   revalidatePath("/", "layout");
   redirect("/account?saved=1");
 }
+
+// ── Support access ────────────────────────────────────────────────────────
+
+/** Opens the coach's own account in the coach app, as its owner, for two hours. */
+export async function startSupportAction(fd: FormData) {
+  const { supabase } = await requireArea("coach_access");
+  const id = s(fd, "coach_id");
+  const { error } = await supabase.rpc("start_support_session", { p_coach: id, p_reason: s(fd, "reason") });
+  if (error) back(`/coaches/${id}`, error.message);
+  revalidatePath(`/coaches/${id}`, "layout");
+  redirect(process.env.NEXT_PUBLIC_APP_URL ?? "/");
+}
+
+export async function endSupportFromPortalAction(fd: FormData) {
+  const { supabase } = await requireArea("coach_access");
+  await supabase.rpc("end_support_session");
+  const id = s(fd, "coach_id");
+  revalidatePath(`/coaches/${id}`, "layout");
+  redirect(`/coaches/${id}/support`);
+}

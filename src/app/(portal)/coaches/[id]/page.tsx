@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { OpenAccount } from "@/components/open-account";
 import { Empty } from "@/components/ui";
 import { getCoachRecord } from "@/lib/coach-record";
 import { fmtDate, fmtDateTime, fmtRelativeDays, money } from "@/lib/format";
@@ -7,6 +8,8 @@ import { PORTAL_TZ } from "@/lib/staff";
 export default async function CoachOverview({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const { c, supabase, can } = await getCoachRecord(id);
+  const { data: usageRaw } = await supabase.rpc("admin_coach_usage", { p_coach: id });
+  const u = (usageRaw ?? {}) as Record<string, number>;
   const { data: notes } = can("notes")
     ? await supabase.from("admin_notes").select("id, kind, body, created_at").eq("coach_id", id).order("created_at", { ascending: false }).limit(3)
     : { data: null };
@@ -25,6 +28,14 @@ export default async function CoachOverview({ params }: { params: Promise<{ id: 
             ["Offers", c.offers_total],
             ["Last sign-in", fmtRelativeDays(c.last_sign_in_at)],
             ["Last activity", c.last_activity_at ? fmtDateTime(c.last_activity_at, PORTAL_TZ) : "None"],
+            ["Team", u.team_practitioners ? `${u.team_active} people` : "Solo"],
+            ["Expenses logged", `${u.expenses ?? 0}${u.expenses_30d ? ` (${u.expenses_30d} this month)` : ""}`],
+            ["Receipts uploaded", u.receipts ?? 0],
+            ["Invoices paid", u.invoices_paid ?? 0],
+            ["Session notes", u.notes ?? 0],
+            ["Goals", u.goals ?? 0],
+            ["Booked by clients", u.booked_by_clients ?? 0],
+            ["Calendar entries", u.calendar_events ?? 0],
           ].map(([label, value]) => (
             <div key={String(label)}>
               <dt className="text-xs text-muted">{label}</dt>
@@ -32,10 +43,16 @@ export default async function CoachOverview({ params }: { params: Promise<{ id: 
             </div>
           ))}
         </dl>
-        <p className="mt-4 text-xs text-muted">Counts only. The portal can&apos;t see a coach&apos;s clients, notes or session details.</p>
+        <p className="mt-4 text-xs text-muted">To see or change their actual clients, sessions, invoices or money, open their account.</p>
       </section>
 
       <div className="space-y-5">
+        {can("coach_access") && (
+          <section className="card">
+            <h2 className="section-title">Open their account</h2>
+            <OpenAccount coachId={id} />
+          </section>
+        )}
         <section className="card">
           <h2 className="section-title">Account</h2>
           <dl className="space-y-2 text-sm">
